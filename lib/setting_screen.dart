@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-const String KEY_API = 'api';
-const String KEY_USER = 'user';
-const String KEY_PASS = 'pass';
-const String KEY_SID = 'sid';
+import 'util/preference.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -28,11 +24,10 @@ class SettingScreenState extends State<SettingScreen> {
   }
 
   Future<void> _loadData() async {
-    final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _api = prefs.getString(KEY_API) ?? '';
-      _user = prefs.getString(KEY_USER) ?? '';
-      _pass = prefs.getString(KEY_PASS) ?? '';
+      _api = Preference.getString(Preference.API) ?? '';
+      _user = Preference.getString(Preference.USER) ?? '';
+      _pass = Preference.getString(Preference.PASS) ?? '';
     });
   }
 
@@ -70,11 +65,10 @@ class SettingScreenState extends State<SettingScreen> {
             );
           }),
           ElevatedButton(
-            onPressed: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setString(KEY_API, _apiText.text);
-              await prefs.setString(KEY_USER, _userText.text);
-              await prefs.setString(KEY_PASS, _passText.text);
+            onPressed: () {
+              Preference.setString(Preference.API, _apiText.text);
+              Preference.setString(Preference.USER, _userText.text);
+              Preference.setString(Preference.PASS, _passText.text);
               if (context.mounted) {
                 Navigator.pop(context);
               }
