@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tinyreader/category_list_widget.dart';
 import 'package:tinyreader/setting_screen.dart';
 import 'package:tinyreader/util/preference.dart';

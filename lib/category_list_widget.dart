@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tinyreader/feeds_screen.dart';
 
 import 'type/categories.dart';
 
@@ -11,9 +12,23 @@ class CategoryListWidget extends StatelessWidget {
     return ListView.builder(
         itemCount: categories.length,
         itemBuilder: (BuildContext context, int index) {
-          var unread = categories[index].unread;
+          var category = categories[index];
+          var unread = category.unread;
+          var title = category.title;
           return Row(
-            children: [Text(categories[index].title), Text('unread $unread')],
+            children: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FeedsScreen(
+                                  category: category,
+                                )));
+                  },
+                  child: Text(title)),
+              Text('unread $unread'),
+            ],
           );
         });
   }
