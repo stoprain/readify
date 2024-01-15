@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tinyreader/type/categories.dart';
+import 'package:tinyreader/type/feeds.dart';
+import 'package:tinyreader/widgets/feed_list_widget.dart';
 
-import 'util/preference.dart';
+import '../util/preference.dart';
 import 'package:http/http.dart' as http;
 
 class FeedsScreen extends StatefulWidget {
@@ -15,6 +17,8 @@ class FeedsScreen extends StatefulWidget {
 }
 
 class _FeedsScreenState extends State<FeedsScreen> {
+  List<Feed> feeds = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,10 +43,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
                       }))
                   .then((respsone) {
                 setState(() {
-                  // categories =
-                  //     Categories.fromJson(jsonDecode(respsone.body)).content;
-                  var test = respsone.body;
-                  print(test);
+                  feeds = Feeds.fromJson(jsonDecode(respsone.body)).content;
                 });
               });
             },
@@ -53,6 +54,9 @@ class _FeedsScreenState extends State<FeedsScreen> {
           ),
           Icon(Icons.more_vert),
         ],
+      ),
+      body: Container(
+        child: FeedListWidget(feeds: feeds),
       ),
     );
   }

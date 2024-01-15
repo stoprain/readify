@@ -32,17 +32,17 @@ class Feed {
   }
 }
 
-class Categories {
+class Feeds {
   final int seq;
   final int status;
   final List<Feed> content;
 
-  Categories({required this.seq, required this.status, required this.content});
+  Feeds({required this.seq, required this.status, required this.content});
 
-  factory Categories.fromJson(Map<String, dynamic> json) {
+  factory Feeds.fromJson(Map<String, dynamic> json) {
     var list = json['content'] as List;
     List<Feed> categoryList = list.map((i) => Feed.fromJson(i)).toList();
-    return Categories(
+    return Feeds(
         seq: json["seq"], status: json["status"], content: categoryList);
   }
 }

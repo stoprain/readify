@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:tinyreader/category_list_widget.dart';
-import 'package:tinyreader/setting_screen.dart';
+import 'package:tinyreader/widgets/category_list_widget.dart';
+import 'package:tinyreader/screens/setting_screen.dart';
 import 'package:tinyreader/util/preference.dart';
 
-import 'type/categories.dart';
+import '../type/categories.dart';
 
 import 'package:http/http.dart' as http;
 

@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:tinyreader/feeds_screen.dart';
+import 'package:tinyreader/screens/headlines_screen.dart';
+import 'package:tinyreader/type/feeds.dart';
 
-import 'type/categories.dart';
-
-class CategoryListWidget extends StatelessWidget {
-  final List<Category> categories;
-  const CategoryListWidget({super.key, required this.categories});
+class FeedListWidget extends StatelessWidget {
+  final List<Feed> feeds;
+  const FeedListWidget({super.key, required this.feeds});
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: categories.length,
+        itemCount: feeds.length,
         itemBuilder: (BuildContext context, int index) {
-          var category = categories[index];
-          var unread = category.unread;
-          var title = category.title;
+          var feed = feeds[index];
+          var unread = feed.unread;
+          var title = feed.title;
           return Row(
             children: [
               TextButton(
@@ -22,8 +21,8 @@ class CategoryListWidget extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => FeedsScreen(
-                                  category: category,
+                            builder: (context) => HeadlinesScreen(
+                                  feed: feed,
                                 )));
                   },
                   child: Text(title)),

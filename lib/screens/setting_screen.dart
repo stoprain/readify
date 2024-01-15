@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'util/preference.dart';
+import '../util/preference.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
