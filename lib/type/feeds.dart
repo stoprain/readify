@@ -41,8 +41,7 @@ class Feeds {
 
   factory Feeds.fromJson(Map<String, dynamic> json) {
     var list = json['content'] as List;
-    List<Feed> categoryList = list.map((i) => Feed.fromJson(i)).toList();
-    return Feeds(
-        seq: json["seq"], status: json["status"], content: categoryList);
+    List<Feed> feedList = list.map((i) => Feed.fromJson(i)).toList();
+    return Feeds(seq: json["seq"], status: json["status"], content: feedList);
   }
 }

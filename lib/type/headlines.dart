@@ -49,9 +49,9 @@ class Headlines {
 
   factory Headlines.fromJson(Map<String, dynamic> json) {
     var list = json['content'] as List;
-    List<Headline> categoryList =
+    List<Headline> headlineList =
         list.map((i) => Headline.fromJson(i)).toList();
     return Headlines(
-        seq: json["seq"], status: json["status"], content: categoryList);
+        seq: json["seq"], status: json["status"], content: headlineList);
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:tinyreader/type/articles.dart';
 import 'package:tinyreader/type/feeds.dart';
 import 'package:tinyreader/type/headlines.dart';
 import 'package:tinyreader/widgets/feed_list_widget.dart';
@@ -9,22 +10,24 @@ import 'package:tinyreader/widgets/headline_list_widget.dart';
 import '../util/preference.dart';
 import 'package:http/http.dart' as http;
 
-class HeadlinesScreen extends StatefulWidget {
-  final Feed feed;
-  const HeadlinesScreen({super.key, required this.feed});
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+
+class ArticleScreen extends StatefulWidget {
+  final Headline headline;
+  const ArticleScreen({super.key, required this.headline});
 
   @override
-  State<HeadlinesScreen> createState() => _HeadlinesScreenState();
+  State<ArticleScreen> createState() => _ArticleScreenState();
 }
 
-class _HeadlinesScreenState extends State<HeadlinesScreen> {
-  List<Headline> headlines = [];
+class _ArticleScreenState extends State<ArticleScreen> {
+  Article? article;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.feed.title),
+        title: Text(widget.headline.title),
         actions: [
           // Icon(Icons.refresh_rounded),
           IconButton(
@@ -38,15 +41,13 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
                   .post(Uri.parse(api),
                       body: jsonEncode(<String, dynamic>{
                         "sid": sid,
-                        "op": "getHeadlines",
-                        "feed_id": widget.feed.id,
-                        "unread_only": true,
+                        "op": "getArticle",
+                        "article_id": widget.headline.id
                       }))
                   .then((respsone) {
                 setState(() {
-                  print(respsone.body);
-                  headlines =
-                      Headlines.fromJson(jsonDecode(respsone.body)).content;
+                  article =
+                      Articles.fromJson(jsonDecode(respsone.body)).content[0];
                 });
               });
             },
@@ -59,7 +60,7 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
         ],
       ),
       body: Container(
-        child: HeadlineListWidget(headlines: headlines),
+        child: HtmlWidget(article?.content ?? ''),
       ),
     );
   }
