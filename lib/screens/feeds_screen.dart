@@ -20,6 +20,30 @@ class _FeedsScreenState extends State<FeedsScreen> {
   List<Feed> feeds = [];
 
   @override
+  void initState() {
+    refresh();
+    super.initState();
+  }
+
+  void refresh() {
+    var api = Preference.getString(Preference.API) ?? '';
+    var sid = Preference.getString(Preference.SID) ?? '';
+    http
+        .post(Uri.parse(api),
+            body: jsonEncode(<String, dynamic>{
+              "sid": sid,
+              "op": "getFeeds",
+              "cat_id": widget.category.id,
+              "unread_only": true,
+            }))
+        .then((respsone) {
+      setState(() {
+        feeds = Feeds.fromJson(jsonDecode(respsone.body)).content;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -27,25 +51,11 @@ class _FeedsScreenState extends State<FeedsScreen> {
         actions: [
           // Icon(Icons.refresh_rounded),
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.refresh_rounded,
             ),
             onPressed: () {
-              var api = Preference.getString(Preference.API) ?? '';
-              var sid = Preference.getString(Preference.SID) ?? '';
-              http
-                  .post(Uri.parse(api),
-                      body: jsonEncode(<String, dynamic>{
-                        "sid": sid,
-                        "op": "getFeeds",
-                        "cat_id": widget.category.id,
-                        "unread_only": true,
-                      }))
-                  .then((respsone) {
-                setState(() {
-                  feeds = Feeds.fromJson(jsonDecode(respsone.body)).content;
-                });
-              });
+              refresh();
             },
           ),
           Padding(

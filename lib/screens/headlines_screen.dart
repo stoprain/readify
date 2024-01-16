@@ -21,6 +21,31 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
   List<Headline> headlines = [];
 
   @override
+  void initState() {
+    refresh();
+    super.initState();
+  }
+
+  void refresh() {
+    var api = Preference.getString(Preference.API) ?? '';
+    var sid = Preference.getString(Preference.SID) ?? '';
+    http
+        .post(Uri.parse(api),
+            body: jsonEncode(<String, dynamic>{
+              "sid": sid,
+              "op": "getHeadlines",
+              "feed_id": widget.feed.id,
+              "unread_only": true,
+            }))
+        .then((respsone) {
+      setState(() {
+        print(respsone.body);
+        headlines = Headlines.fromJson(jsonDecode(respsone.body)).content;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -32,23 +57,7 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
               Icons.refresh_rounded,
             ),
             onPressed: () {
-              var api = Preference.getString(Preference.API) ?? '';
-              var sid = Preference.getString(Preference.SID) ?? '';
-              http
-                  .post(Uri.parse(api),
-                      body: jsonEncode(<String, dynamic>{
-                        "sid": sid,
-                        "op": "getHeadlines",
-                        "feed_id": widget.feed.id,
-                        "unread_only": true,
-                      }))
-                  .then((respsone) {
-                setState(() {
-                  print(respsone.body);
-                  headlines =
-                      Headlines.fromJson(jsonDecode(respsone.body)).content;
-                });
-              });
+              refresh();
             },
           ),
           Padding(

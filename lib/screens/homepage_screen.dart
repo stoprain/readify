@@ -25,6 +25,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     super.initState();
   }
 
+  void refresh() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +40,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                 MaterialPageRoute(builder: (context) => const SettingScreen()));
           },
         ),
-        title: Text('Page title'),
+        title: Text('Subscriptions'),
         actions: [
           // Icon(Icons.refresh_rounded),
           IconButton(

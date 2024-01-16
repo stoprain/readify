@@ -24,44 +24,54 @@ class _ArticleScreenState extends State<ArticleScreen> {
   Article? article;
 
   @override
+  void initState() {
+    refresh();
+    super.initState();
+  }
+
+  void refresh() {
+    var api = Preference.getString(Preference.API) ?? '';
+    var sid = Preference.getString(Preference.SID) ?? '';
+    http
+        .post(Uri.parse(api),
+            body: jsonEncode(<String, dynamic>{
+              "sid": sid,
+              "op": "getArticle",
+              "article_id": widget.headline.id
+            }))
+        .then((respsone) {
+      setState(() {
+        article = Articles.fromJson(jsonDecode(respsone.body)).content[0];
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.headline.title),
-        actions: [
-          // Icon(Icons.refresh_rounded),
-          IconButton(
-            icon: Icon(
-              Icons.refresh_rounded,
+        appBar: AppBar(
+          title: Text(widget.headline.title),
+          actions: [
+            // Icon(Icons.refresh_rounded),
+            IconButton(
+              icon: Icon(
+                Icons.refresh_rounded,
+              ),
+              onPressed: () {
+                refresh();
+              },
             ),
-            onPressed: () {
-              var api = Preference.getString(Preference.API) ?? '';
-              var sid = Preference.getString(Preference.SID) ?? '';
-              http
-                  .post(Uri.parse(api),
-                      body: jsonEncode(<String, dynamic>{
-                        "sid": sid,
-                        "op": "getArticle",
-                        "article_id": widget.headline.id
-                      }))
-                  .then((respsone) {
-                setState(() {
-                  article =
-                      Articles.fromJson(jsonDecode(respsone.body)).content[0];
-                });
-              });
-            },
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Icon(Icons.search),
+            ),
+            Icon(Icons.more_vert),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[HtmlWidget(article?.content ?? '')],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.search),
-          ),
-          Icon(Icons.more_vert),
-        ],
-      ),
-      body: Container(
-        child: HtmlWidget(article?.content ?? ''),
-      ),
-    );
+        ));
   }
 }
