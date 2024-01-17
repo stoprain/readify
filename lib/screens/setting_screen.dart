@@ -35,7 +35,7 @@ class SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Second Route'),
+        title: const Text('Settings'),
       ),
       body: Center(
           child: Column(
