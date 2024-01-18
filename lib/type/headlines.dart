@@ -9,18 +9,21 @@ class Headline {
   final String title;
   final String link;
   final int feed_id;
+  final String excerpt;
 
-  Headline(
-      {required this.id,
-      required this.guid,
-      required this.unread,
-      required this.marked,
-      required this.published,
-      required this.updated,
-      required this.is_updated,
-      required this.title,
-      required this.link,
-      required this.feed_id});
+  Headline({
+    required this.id,
+    required this.guid,
+    required this.unread,
+    required this.marked,
+    required this.published,
+    required this.updated,
+    required this.is_updated,
+    required this.title,
+    required this.link,
+    required this.feed_id,
+    required this.excerpt,
+  });
   //tags labels feed_title comments_count comments_link
   //always_display_attachments author score note lang site_url
 
@@ -36,6 +39,7 @@ class Headline {
       title: json["title"],
       link: json["link"],
       feed_id: json["feed_id"],
+      excerpt: json['excerpt'],
     );
   }
 }

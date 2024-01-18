@@ -15,19 +15,25 @@ class HeadlineListWidget extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           var headline = headlines[index];
           var unread = headline.unread;
+          var excerpt = headline.excerpt;
           var title = headline.title;
           return Row(
             children: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ArticleScreen(
-                                  headline: headline,
-                                )));
-                  },
-                  child: Text(title)),
+              Column(
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ArticleScreen(
+                                      headline: headline,
+                                    )));
+                      },
+                      child: Text(title)),
+                  Text('$excerpt'),
+                ],
+              ),
               Text('unread $unread'),
             ],
           );

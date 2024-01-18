@@ -36,10 +36,11 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
               "op": "getHeadlines",
               "feed_id": widget.feed.id,
               "unread_only": true,
+              "show_excerpt": true,
+              "excerpt_length": 300,
             }))
         .then((respsone) {
       setState(() {
-        print(respsone.body);
         headlines = Headlines.fromJson(jsonDecode(respsone.body)).content;
       });
     });
