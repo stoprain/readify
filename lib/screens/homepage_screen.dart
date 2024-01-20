@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:tinyreader/util/network.dart';
 import 'package:tinyreader/widgets/category_list_widget.dart';
 import 'package:tinyreader/screens/setting_screen.dart';
 import 'package:tinyreader/util/preference.dart';
@@ -47,18 +48,10 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
             icon: Icon(
               Icons.refresh_rounded,
             ),
-            onPressed: () {
-              var api = Preference.getString(Preference.API) ?? '';
-              var sid = Preference.getString(Preference.SID) ?? '';
-              http
-                  .post(Uri.parse(api),
-                      body: jsonEncode(
-                          <String, String>{"sid": sid, "op": "getCategories"}))
-                  .then((respsone) {
-                setState(() {
-                  categories =
-                      Categories.fromJson(jsonDecode(respsone.body)).content;
-                });
+            onPressed: () async {
+              var temp = await Network.getCategories();
+              setState(() {
+                categories = temp;
               });
             },
           ),

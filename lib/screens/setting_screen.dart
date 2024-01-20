@@ -10,12 +10,10 @@ class SettingScreen extends StatefulWidget {
 }
 
 class SettingScreenState extends State<SettingScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _api = '';
   String _user = '';
   String _pass = '';
-  final _apiText = TextEditingController();
-  final _userText = TextEditingController();
-  final _passText = TextEditingController();
 
   @override
   void initState() {
@@ -24,12 +22,22 @@ class SettingScreenState extends State<SettingScreen> {
   }
 
   Future<void> _loadData() async {
-    setState(() {
-      _api = Preference.getString(Preference.API) ?? '';
-      _user = Preference.getString(Preference.USER) ?? '';
-      _pass = Preference.getString(Preference.PASS) ?? '';
-    });
+    setState(() {});
   }
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      Preference.setString(Preference.API, _api);
+      Preference.setString(Preference.USER, _user);
+      Preference.setString(Preference.PASS, _pass);
+
+      Navigator.pop(context);
+    }
+  }
+
+  void _login() {}
 
   @override
   Widget build(BuildContext context) {
@@ -37,76 +45,60 @@ class SettingScreenState extends State<SettingScreen> {
       appBar: AppBar(
         title: const Text('Settings'),
       ),
-      body: Center(
+      body: Form(
+          key: _formKey,
           child: Column(
-        children: [
-          TextFormField(
-            decoration: const InputDecoration(labelText: 'API address'),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter API address';
-              }
-              return null;
-            },
-            onSaved: (value) {
-              _api = value!;
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(labelText: 'user'),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter user';
-              }
-              return null;
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(labelText: 'pass'),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter pass';
-              }
-              return null;
-            },
-          ),
-          // const Text('api address'),
-          // StatefulBuilder(
-          //     builder: (BuildContext context, StateSetter setState) {
-          //   _apiText.text = _api;
-          //   return TextField(
-          //     controller: _apiText,
-          //   );
-          // }),
-          // const Text('user'),
-          // StatefulBuilder(
-          //     builder: (BuildContext context, StateSetter setState) {
-          //   _userText.text = _user;
-          //   return TextField(
-          //     controller: _userText,
-          //   );
-          // }),
-          // const Text('pass'),
-          // StatefulBuilder(
-          //     builder: (BuildContext context, StateSetter setState) {
-          //   _passText.text = _pass;
-          //   return TextField(
-          //     controller: _passText,
-          //   );
-          // }),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     Preference.setString(Preference.API, _apiText.text);
-          //     Preference.setString(Preference.USER, _userText.text);
-          //     Preference.setString(Preference.PASS, _passText.text);
-          //     if (context.mounted) {
-          //       Navigator.pop(context);
-          //     }
-          //   },
-          //   child: const Text('Save'),
-          // ),
-        ],
-      )),
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'API address'),
+                initialValue: Preference.getString(Preference.API),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter API address';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _api = value!;
+                },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'user'),
+                initialValue: Preference.getString(Preference.USER),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter user';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _user = value!;
+                },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'pass'),
+                initialValue: Preference.getString(Preference.PASS),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter pass';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _pass = value!;
+                },
+              ),
+              const SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: _submitForm,
+                child: const Text('Save'),
+              ),
+              ElevatedButton(
+                onPressed: _login,
+                child: const Text('Login'),
+              ),
+            ],
+          )),
     );
   }
 }
