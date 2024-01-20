@@ -38,6 +38,8 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
               "unread_only": true,
               "show_excerpt": true,
               "excerpt_length": 300,
+              "view_mode": "unread",
+              "order_by": "feed_dates",
             }))
         .then((respsone) {
       setState(() {

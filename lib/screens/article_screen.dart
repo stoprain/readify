@@ -1,11 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:tinyreader/type/articles.dart';
-import 'package:tinyreader/type/feeds.dart';
+import 'package:tinyreader/type/article.dart';
 import 'package:tinyreader/type/headlines.dart';
-import 'package:tinyreader/widgets/feed_list_widget.dart';
-import 'package:tinyreader/widgets/headline_list_widget.dart';
+import 'package:tinyreader/util/network.dart';
 
 import '../util/preference.dart';
 import 'package:http/http.dart' as http;
@@ -29,21 +27,12 @@ class _ArticleScreenState extends State<ArticleScreen> {
     super.initState();
   }
 
-  void refresh() {
-    var api = Preference.getString(Preference.API) ?? '';
-    var sid = Preference.getString(Preference.SID) ?? '';
-    http
-        .post(Uri.parse(api),
-            body: jsonEncode(<String, dynamic>{
-              "sid": sid,
-              "op": "getArticle",
-              "article_id": widget.headline.id
-            }))
-        .then((respsone) {
-      setState(() {
-        article = Articles.fromJson(jsonDecode(respsone.body)).content[0];
-      });
+  refresh() async {
+    var temp = await Network.getArticle(widget.headline.id);
+    setState(() {
+      article = temp;
     });
+    Network.updateArticle(widget.headline.id);
   }
 
   @override
@@ -51,22 +40,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.headline.title),
-          actions: [
-            // Icon(Icons.refresh_rounded),
-            IconButton(
-              icon: Icon(
-                Icons.refresh_rounded,
-              ),
-              onPressed: () {
-                refresh();
-              },
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Icon(Icons.search),
-            ),
-            Icon(Icons.more_vert),
-          ],
+          actions: [],
         ),
         body: SingleChildScrollView(
           child: Column(

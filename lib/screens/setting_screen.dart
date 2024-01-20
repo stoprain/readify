@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tinyreader/util/globals.dart';
+import 'package:tinyreader/util/network.dart';
 
 import '../util/preference.dart';
 
@@ -37,7 +39,10 @@ class SettingScreenState extends State<SettingScreen> {
     }
   }
 
-  void _login() {}
+  _login() async {
+    await Network.login();
+    GloabalSnackBar.show('login success');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +98,7 @@ class SettingScreenState extends State<SettingScreen> {
                 onPressed: _submitForm,
                 child: const Text('Save'),
               ),
+              const SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: _login,
                 child: const Text('Login'),

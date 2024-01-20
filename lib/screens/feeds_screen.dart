@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:tinyreader/type/categories.dart';
+import 'package:tinyreader/type/category.dart';
 import 'package:tinyreader/type/feeds.dart';
 import 'package:tinyreader/widgets/feed_list_widget.dart';
 

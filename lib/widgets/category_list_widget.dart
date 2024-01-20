@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tinyreader/screens/feeds_screen.dart';
 
-import '../type/categories.dart';
+import '../type/category.dart';
 
 class CategoryListWidget extends StatelessWidget {
   final List<Category> categories;

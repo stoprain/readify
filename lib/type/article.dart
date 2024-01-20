@@ -59,18 +59,3 @@ class Article {
     );
   }
 }
-
-class Articles {
-  final int seq;
-  final int status;
-  final List<Article> content;
-
-  Articles({required this.seq, required this.status, required this.content});
-
-  factory Articles.fromJson(Map<String, dynamic> json) {
-    var list = json['content'] as List;
-    List<Article> articleList = list.map((i) => Article.fromJson(i)).toList();
-    return Articles(
-        seq: json["seq"], status: json["status"], content: articleList);
-  }
-}

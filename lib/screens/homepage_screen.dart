@@ -6,7 +6,7 @@ import 'package:tinyreader/widgets/category_list_widget.dart';
 import 'package:tinyreader/screens/setting_screen.dart';
 import 'package:tinyreader/util/preference.dart';
 
-import '../type/categories.dart';
+import '../type/category.dart';
 
 import 'package:http/http.dart' as http;
 

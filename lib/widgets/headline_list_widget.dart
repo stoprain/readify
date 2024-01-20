@@ -11,32 +11,40 @@ class HeadlineListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+        shrinkWrap: true,
         itemCount: headlines.length,
         itemBuilder: (BuildContext context, int index) {
           var headline = headlines[index];
           var unread = headline.unread;
           var excerpt = headline.excerpt;
           var title = headline.title;
-          return Row(
+          return Column(
             children: [
-              Column(
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ArticleScreen(
-                                      headline: headline,
-                                    )));
-                      },
-                      child: Text(title)),
-                  Text('$excerpt'),
-                ],
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ArticleScreen(
+                                    headline: headline,
+                                  )));
+                    },
+                    child: Text(title)),
               ),
-              Text('unread $unread'),
+              Text(
+                excerpt,
+                softWrap: true,
+              ),
             ],
           );
+          // return Row(
+          //   children: [
+
+          //     Text('unread $unread'),
+          //   ],
+          // );
         });
   }
 }
