@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:readify/util/network.dart';
 import 'package:readify/widgets/category_list_widget.dart';
@@ -7,8 +5,6 @@ import 'package:readify/screens/setting_screen.dart';
 import 'package:readify/util/preference.dart';
 
 import '../type/category.dart';
-
-import 'package:http/http.dart' as http;
 
 class MyHomeScreen extends StatefulWidget {
   const MyHomeScreen({super.key});
@@ -55,11 +51,6 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
               });
             },
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.search),
-          ),
-          Icon(Icons.more_vert),
         ],
       ),
       body: Container(

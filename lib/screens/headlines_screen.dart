@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:readify/type/feeds.dart';
 import 'package:readify/type/headlines.dart';
-import 'package:readify/widgets/feed_list_widget.dart';
 import 'package:readify/widgets/headline_list_widget.dart';
 
 import '../util/preference.dart';
@@ -63,11 +62,6 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
               refresh();
             },
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.search),
-          ),
-          Icon(Icons.more_vert),
         ],
       ),
       body: Container(

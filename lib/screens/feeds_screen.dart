@@ -58,11 +58,6 @@ class _FeedsScreenState extends State<FeedsScreen> {
               refresh();
             },
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.search),
-          ),
-          Icon(Icons.more_vert),
         ],
       ),
       body: Container(
