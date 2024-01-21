@@ -1,4 +1,4 @@
-package com.example.tinyreader
+package com.example.readify
 
 import io.flutter.embedding.android.FlutterActivity
 

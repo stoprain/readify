@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "tinyreader" "\0"
+            VALUE "FileDescription", "readify" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "tinyreader" "\0"
+            VALUE "InternalName", "readify" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "tinyreader.exe" "\0"
-            VALUE "ProductName", "tinyreader" "\0"
+            VALUE "OriginalFilename", "readify.exe" "\0"
+            VALUE "ProductName", "readify" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
