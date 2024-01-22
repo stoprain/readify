@@ -3,6 +3,7 @@ import 'package:readify/screens/article_screen.dart';
 import 'package:readify/screens/headlines_screen.dart';
 import 'package:readify/type/feeds.dart';
 import 'package:readify/type/headlines.dart';
+import 'package:readify/util/network.dart';
 
 class HeadlineListWidget extends StatelessWidget {
   final List<Headline> headlines;
@@ -18,33 +19,32 @@ class HeadlineListWidget extends StatelessWidget {
           var unread = headline.unread;
           var excerpt = headline.excerpt;
           var title = headline.title;
-          return Column(
+          return Row(
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ArticleScreen(
-                                    headline: headline,
-                                  )));
-                    },
-                    child: Text(title)),
+              Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ArticleScreen(
+                                        headline: headline,
+                                      )));
+                        },
+                        child: Text(title)),
+                  ),
+                  Text(
+                    excerpt,
+                    softWrap: true,
+                  ),
+                ],
               ),
-              Text(
-                excerpt,
-                softWrap: true,
-              ),
+              Text('unread $unread'),
             ],
           );
-          // return Row(
-          //   children: [
-
-          //     Text('unread $unread'),
-          //   ],
-          // );
         });
   }
 }

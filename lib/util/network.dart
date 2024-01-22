@@ -66,6 +66,12 @@ class Network {
     print(respsone.body);
   }
 
+  static String getIco(int feedId) {
+    var api = Preference.getString(Preference.API) ?? '';
+    var result = api.replaceAll('api/', 'public.php?op=feed_icon&id=$feedId');
+    return result;
+  }
+
   static dynamic validRes(String body) {
     var json = jsonDecode(body);
     if (json['content'] is List) {
