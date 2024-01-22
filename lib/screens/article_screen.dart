@@ -27,7 +27,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
     setState(() {
       article = temp;
     });
-    // Network.updateArticle(widget.headline.id);
+    Network.updateArticle(widget.headline.id);
   }
 
   @override

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:readify/screens/article_screen.dart';
-import 'package:readify/screens/headlines_screen.dart';
-import 'package:readify/type/feeds.dart';
 import 'package:readify/type/headlines.dart';
-import 'package:readify/util/network.dart';
 
 class HeadlineListWidget extends StatelessWidget {
   final List<Headline> headlines;
@@ -11,38 +8,51 @@ class HeadlineListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
         shrinkWrap: true,
         itemCount: headlines.length,
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemBuilder: (BuildContext context, int index) {
           var headline = headlines[index];
-          var unread = headline.unread;
           var excerpt = headline.excerpt;
           var title = headline.title;
-          return Row(
+          var updated =
+              DateTime.fromMillisecondsSinceEpoch(headline.updated * 1000);
+          return Column(
             children: [
-              Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ArticleScreen(
-                                        headline: headline,
-                                      )));
-                        },
-                        child: Text(title)),
-                  ),
-                  Text(
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ArticleScreen(
+                                    headline: headline,
+                                  )));
+                    },
+                    child: Text(title)),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Text(
                     excerpt,
                     softWrap: true,
                   ),
-                ],
+                ),
               ),
-              Text('unread $unread'),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Text(
+                    updated.toString(),
+                    softWrap: true,
+                  ),
+                ),
+              ),
             ],
           );
         });

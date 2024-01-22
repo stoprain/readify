@@ -1,4 +1,4 @@
-package com.example.readify
+package net.stoprain.readify
 
 import io.flutter.embedding.android.FlutterActivity
 
