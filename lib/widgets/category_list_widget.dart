@@ -11,27 +11,34 @@ class CategoryListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
         itemCount: categories.length,
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
+        separatorBuilder: (BuildContext context, int index) => const Divider(
+              height: 1,
+            ),
         itemBuilder: (BuildContext context, int index) {
           var category = categories[index];
           var unread = category.unread;
           var title = category.title;
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FeedsScreen(
-                                  category: category,
-                                )));
-                  },
-                  child: Text(title)),
-              Text('unread $unread'),
-            ],
+          return InkWell(
+            child: Container(
+              constraints: const BoxConstraints(
+                  minHeight: 40, minWidth: double.infinity, maxHeight: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(title),
+                  Text('unread $unread'),
+                ],
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FeedsScreen(
+                            category: category,
+                          )));
+            },
           );
         });
   }

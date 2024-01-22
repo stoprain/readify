@@ -18,42 +18,43 @@ class HeadlineListWidget extends StatelessWidget {
           var title = headline.title;
           var updated =
               DateTime.fromMillisecondsSinceEpoch(headline.updated * 1000);
-          return Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ArticleScreen(
-                                    headline: headline,
-                                  )));
-                    },
-                    child: Text(title)),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Text(
-                    excerpt,
-                    softWrap: true,
+          return InkWell(
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(title),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Text(
+                      excerpt,
+                      softWrap: true,
+                    ),
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Text(
-                    updated.toString(),
-                    softWrap: true,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Text(
+                      updated.toString(),
+                      softWrap: true,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ArticleScreen(
+                            headline: headline,
+                          )));
+            },
           );
         });
   }
