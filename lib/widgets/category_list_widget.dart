@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:readify/screens/feeds_screen.dart';
+import 'package:readify/widgets/title_cell_widget.dart';
 
 import '../type/category.dart';
 
@@ -18,28 +19,18 @@ class CategoryListWidget extends StatelessWidget {
           var category = categories[index];
           var unread = category.unread;
           var title = category.title;
-          return InkWell(
-            child: Container(
-              constraints: const BoxConstraints(
-                  minHeight: 40, minWidth: double.infinity, maxHeight: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(title),
-                  Text('unread $unread'),
-                ],
-              ),
-            ),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => FeedsScreen(
-                            category: category,
-                          )));
-            },
-          );
+          return TitleCellWidget(
+              icon: const Icon(Icons.folder_outlined),
+              title: title,
+              unread: unread,
+              onCellTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FeedsScreen(
+                              category: category,
+                            )));
+              });
         });
   }
 }

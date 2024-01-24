@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:readify/screens/headlines_screen.dart';
 import 'package:readify/type/feeds.dart';
-import 'package:readify/util/network.dart';
+import 'package:readify/widgets/title_cell_widget.dart';
 
 class FeedListWidget extends StatelessWidget {
   final List<Feed> feeds;
@@ -18,42 +18,18 @@ class FeedListWidget extends StatelessWidget {
           var feed = feeds[index];
           var unread = feed.unread;
           var title = feed.title;
-          return InkWell(
-            child: Container(
-              constraints: const BoxConstraints(
-                  minHeight: 40, minWidth: double.infinity, maxHeight: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: Image.network(
-                          Network.getIco(feed.id),
-                          errorBuilder: (context, error, stackTrace) {
-                            return Text('ICO');
-                          },
-                        ),
-                      ),
-                      Text(title),
-                    ],
-                  ),
-                  Text('unread $unread'),
-                ],
-              ),
-            ),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => HeadlinesScreen(
-                            feed: feed,
-                          )));
-            },
-          );
+          return TitleCellWidget(
+              icon: const Icon(Icons.newspaper),
+              title: title,
+              unread: unread,
+              onCellTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HeadlinesScreen(
+                              feed: feed,
+                            )));
+              });
         });
   }
 }
