@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:readify/type/article.dart';
+import 'package:readify/type/feeds.dart';
+import 'package:readify/type/headlines.dart';
 import 'package:readify/type/session.dart';
 import 'package:readify/util/globals.dart';
 
@@ -8,7 +10,14 @@ import 'preference.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-enum Op { login, getCategories, getArticle, updateArticle }
+enum Op {
+  login,
+  getCategories,
+  getFeeds,
+  getHeadlines,
+  getArticle,
+  updateArticle
+}
 
 class Network {
   static login() async {
@@ -29,6 +38,35 @@ class Network {
     List<Category> categoryList =
         list.map((i) => Category.fromJson(i)).toList();
     return categoryList;
+  }
+
+  static Future<List<Feed>> getFeeds(int categoryId) async {
+    final res = buildRequest(Op.getFeeds, {
+      "cat_id": categoryId,
+      "unread_only": true,
+    });
+    if (res == null) return [];
+    var respsone = await http.post(Uri.parse(res.$1), body: res.$2);
+    var list = validRes(respsone.body) as List<dynamic>;
+    List<Feed> feedList = list.map((i) => Feed.fromJson(i)).toList();
+    return feedList;
+  }
+
+  static Future<List<Headline>> getHeadlines(int feedId) async {
+    final res = buildRequest(Op.getHeadlines, {
+      "feed_id": feedId,
+      "unread_only": true,
+      "show_excerpt": true,
+      "excerpt_length": 300,
+      "view_mode": "unread",
+      "order_by": "feed_dates",
+    });
+    if (res == null) return [];
+    var respsone = await http.post(Uri.parse(res.$1), body: res.$2);
+    var list = validRes(respsone.body) as List<dynamic>;
+    List<Headline> headlineList =
+        list.map((i) => Headline.fromJson(i)).toList();
+    return headlineList;
   }
 
   static Future<Article?> getArticle(int articleId) async {

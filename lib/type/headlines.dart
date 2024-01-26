@@ -44,18 +44,18 @@ class Headline {
   }
 }
 
-class Headlines {
-  final int seq;
-  final int status;
-  final List<Headline> content;
+// class Headlines {
+//   final int seq;
+//   final int status;
+//   final List<Headline> content;
 
-  Headlines({required this.seq, required this.status, required this.content});
+//   Headlines({required this.seq, required this.status, required this.content});
 
-  factory Headlines.fromJson(Map<String, dynamic> json) {
-    var list = json['content'] as List;
-    List<Headline> headlineList =
-        list.map((i) => Headline.fromJson(i)).toList();
-    return Headlines(
-        seq: json["seq"], status: json["status"], content: headlineList);
-  }
-}
+//   factory Headlines.fromJson(Map<String, dynamic> json) {
+//     var list = json['content'] as List;
+//     List<Headline> headlineList =
+//         list.map((i) => Headline.fromJson(i)).toList();
+//     return Headlines(
+//         seq: json["seq"], status: json["status"], content: headlineList);
+//   }
+// }

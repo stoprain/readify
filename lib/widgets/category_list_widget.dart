@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/screens/feeds_screen.dart';
 import 'package:readify/widgets/title_cell_widget.dart';
 
@@ -20,15 +21,20 @@ class CategoryListWidget extends StatelessWidget {
           var unread = category.unread;
           var title = category.title;
           return TitleCellWidget(
-              icon: const Icon(Icons.folder_outlined),
+              icon: const Icon(
+                Icons.folder_outlined,
+                size: 18,
+              ),
               title: title,
               unread: unread,
               onCellTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => FeedsScreen(
-                              category: category,
+                        builder: (context) => LoaderOverlay(
+                              child: FeedsScreen(
+                                category: category,
+                              ),
                             )));
               });
         });

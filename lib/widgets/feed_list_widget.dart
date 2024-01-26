@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/screens/headlines_screen.dart';
 import 'package:readify/type/feeds.dart';
 import 'package:readify/widgets/title_cell_widget.dart';
@@ -19,15 +20,20 @@ class FeedListWidget extends StatelessWidget {
           var unread = feed.unread;
           var title = feed.title;
           return TitleCellWidget(
-              icon: const Icon(Icons.newspaper),
+              icon: const Icon(
+                Icons.newspaper,
+                size: 18,
+              ),
               title: title,
               unread: unread,
               onCellTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HeadlinesScreen(
-                              feed: feed,
+                        builder: (context) => LoaderOverlay(
+                              child: HeadlinesScreen(
+                                feed: feed,
+                              ),
                             )));
               });
         });

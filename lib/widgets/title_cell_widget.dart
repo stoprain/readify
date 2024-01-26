@@ -29,15 +29,28 @@ class _TitleCellWidgetState extends State<TitleCellWidget> {
           children: [
             Row(
               children: [
-                SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: widget.icon,
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: widget.icon,
+                  ),
                 ),
                 Text(widget.title),
               ],
             ),
-            Text('${widget.unread}'),
+            Container(
+              margin: const EdgeInsets.only(right: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.0),
+                color: Colors.blue,
+              ),
+              child: Text(
+                ' ${widget.unread} ',
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
           ],
         ),
       ),

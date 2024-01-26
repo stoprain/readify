@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/type/article.dart';
 import 'package:readify/type/headlines.dart';
 import 'package:readify/util/network.dart';
@@ -22,11 +23,14 @@ class _ArticleScreenState extends State<ArticleScreen> {
     super.initState();
   }
 
-  refresh() async {
-    var temp = await Network.getArticle(widget.headline.id);
-    setState(() {
-      article = temp;
-    });
+  refresh() {
+    context.loaderOverlay.show();
+    Network.getArticle(widget.headline.id).then((value) => {
+          setState(() {
+            article = value;
+            context.loaderOverlay.hide();
+          })
+        });
     Network.updateArticle(widget.headline.id);
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/util/network.dart';
 import 'package:readify/widgets/category_list_widget.dart';
 import 'package:readify/screens/setting_screen.dart';
@@ -17,19 +18,27 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
   List<Category> categories = [];
 
   @override
-  void initState() {
-    Preference.load();
+  initState() {
+    Preference.load().then((value) => {refresh()});
     super.initState();
   }
 
-  void refresh() {}
+  refresh() {
+    context.loaderOverlay.show();
+    Network.getCategories().then((value) => {
+          setState(() {
+            categories = value;
+            context.loaderOverlay.hide();
+          })
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.settings,
           ),
           onPressed: () {
@@ -37,25 +46,20 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
                 MaterialPageRoute(builder: (context) => const SettingScreen()));
           },
         ),
-        title: Text('Subscriptions'),
+        title: const Text('Subscriptions'),
         actions: [
           // Icon(Icons.refresh_rounded),
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.refresh_rounded,
             ),
-            onPressed: () async {
-              var temp = await Network.getCategories();
-              setState(() {
-                categories = temp;
-              });
+            onPressed: () {
+              refresh();
             },
           ),
         ],
       ),
-      body: Container(
-        child: CategoryListWidget(categories: categories),
-      ),
+      body: CategoryListWidget(categories: categories),
     );
   }
 }

@@ -38,6 +38,7 @@ dependencies:
   http: ^1.1.2
   shared_preferences: ^2.2.2
   flutter_widget_from_html: ^0.14.11
+  loader_overlay: ^4.0.0
 
 dev_dependencies:
   flutter_test:

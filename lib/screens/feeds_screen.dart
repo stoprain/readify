@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/type/category.dart';
 import 'package:readify/type/feeds.dart';
+import 'package:readify/util/network.dart';
 import 'package:readify/widgets/feed_list_widget.dart';
-
-import '../util/preference.dart';
-import 'package:http/http.dart' as http;
 
 class FeedsScreen extends StatefulWidget {
   final Category category;
@@ -26,21 +23,13 @@ class _FeedsScreenState extends State<FeedsScreen> {
   }
 
   void refresh() {
-    var api = Preference.getString(Preference.API) ?? '';
-    var sid = Preference.getString(Preference.SID) ?? '';
-    http
-        .post(Uri.parse(api),
-            body: jsonEncode(<String, dynamic>{
-              "sid": sid,
-              "op": "getFeeds",
-              "cat_id": widget.category.id,
-              "unread_only": true,
-            }))
-        .then((respsone) {
-      setState(() {
-        feeds = Feeds.fromJson(jsonDecode(respsone.body)).content;
-      });
-    });
+    context.loaderOverlay.show();
+    Network.getFeeds(widget.category.id).then((value) => {
+          setState(() {
+            feeds = value;
+            context.loaderOverlay.hide();
+          })
+        });
   }
 
   @override
@@ -60,9 +49,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
           ),
         ],
       ),
-      body: Container(
-        child: FeedListWidget(feeds: feeds),
-      ),
+      body: FeedListWidget(feeds: feeds),
     );
   }
 }

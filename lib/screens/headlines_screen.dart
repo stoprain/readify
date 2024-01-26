@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/type/feeds.dart';
 import 'package:readify/type/headlines.dart';
+import 'package:readify/util/network.dart';
 import 'package:readify/widgets/headline_list_widget.dart';
-
-import '../util/preference.dart';
-import 'package:http/http.dart' as http;
 
 class HeadlinesScreen extends StatefulWidget {
   final Feed feed;
@@ -26,25 +23,13 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
   }
 
   void refresh() {
-    var api = Preference.getString(Preference.API) ?? '';
-    var sid = Preference.getString(Preference.SID) ?? '';
-    http
-        .post(Uri.parse(api),
-            body: jsonEncode(<String, dynamic>{
-              "sid": sid,
-              "op": "getHeadlines",
-              "feed_id": widget.feed.id,
-              "unread_only": true,
-              "show_excerpt": true,
-              "excerpt_length": 300,
-              "view_mode": "unread",
-              "order_by": "feed_dates",
-            }))
-        .then((respsone) {
-      setState(() {
-        headlines = Headlines.fromJson(jsonDecode(respsone.body)).content;
-      });
-    });
+    context.loaderOverlay.show();
+    Network.getHeadlines(widget.feed.id).then((value) => {
+          setState(() {
+            headlines = value;
+            context.loaderOverlay.hide();
+          })
+        });
   }
 
   @override
@@ -55,7 +40,7 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
         actions: [
           // Icon(Icons.refresh_rounded),
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.refresh_rounded,
             ),
             onPressed: () {
@@ -64,9 +49,7 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
           ),
         ],
       ),
-      body: Container(
-        child: HeadlineListWidget(headlines: headlines),
-      ),
+      body: HeadlineListWidget(headlines: headlines),
     );
   }
 }

@@ -32,16 +32,16 @@ class Feed {
   }
 }
 
-class Feeds {
-  final int seq;
-  final int status;
-  final List<Feed> content;
+// class Feeds {
+//   final int seq;
+//   final int status;
+//   final List<Feed> content;
 
-  Feeds({required this.seq, required this.status, required this.content});
+//   Feeds({required this.seq, required this.status, required this.content});
 
-  factory Feeds.fromJson(Map<String, dynamic> json) {
-    var list = json['content'] as List;
-    List<Feed> feedList = list.map((i) => Feed.fromJson(i)).toList();
-    return Feeds(seq: json["seq"], status: json["status"], content: feedList);
-  }
-}
+//   factory Feeds.fromJson(Map<String, dynamic> json) {
+//     var list = json['content'] as List;
+//     List<Feed> feedList = list.map((i) => Feed.fromJson(i)).toList();
+//     return Feeds(seq: json["seq"], status: json["status"], content: feedList);
+//   }
+// }

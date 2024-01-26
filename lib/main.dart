@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/screens/homepage_screen.dart';
 import 'package:readify/util/globals.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 44, 44, 46)),
         useMaterial3: true,
       ),
-      home: const MyHomeScreen(),
+      home: const LoaderOverlay(child: MyHomeScreen()),
       scaffoldMessengerKey: snackbarKey,
     );
   }
