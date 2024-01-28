@@ -15,6 +15,7 @@ class HeadlinesScreen extends StatefulWidget {
 
 class _HeadlinesScreenState extends State<HeadlinesScreen> {
   List<Headline> headlines = [];
+  bool isUnread = true;
 
   @override
   void initState() {
@@ -24,7 +25,7 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
 
   void refresh() {
     context.loaderOverlay.show();
-    Network.getHeadlines(widget.feed.id).then((value) => {
+    Network.getHeadlines(widget.feed.id, isUnread).then((value) => {
           setState(() {
             headlines = value;
             context.loaderOverlay.hide();
@@ -38,7 +39,19 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
       appBar: AppBar(
         title: Text(widget.feed.title),
         actions: [
-          // Icon(Icons.refresh_rounded),
+          SegmentedButton(
+            segments: const [
+              ButtonSegment(value: true, label: Text('Unread')),
+              ButtonSegment(value: false, label: Text('All'))
+            ],
+            selected: {isUnread},
+            onSelectionChanged: (i) => {
+              setState(() {
+                isUnread = i.first;
+                refresh();
+              })
+            },
+          ),
           IconButton(
             icon: const Icon(
               Icons.refresh_rounded,

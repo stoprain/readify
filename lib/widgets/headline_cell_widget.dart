@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/screens/article_screen.dart';
 import 'package:readify/type/headlines.dart';
@@ -23,7 +24,9 @@ class _HeadlineCellWidgetState extends State<HeadlineCellWidget> {
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: Text(
                 widget.headline.title,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: widget.headline.unread ? Colors.black : Colors.grey),
               ),
             ),
           ),
@@ -31,9 +34,11 @@ class _HeadlineCellWidgetState extends State<HeadlineCellWidget> {
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Text(
+              child: HtmlWidget(
                 widget.headline.excerpt,
-                softWrap: true,
+                textStyle: TextStyle(
+                    color: widget.headline.unread ? Colors.black : Colors.grey),
+                // softWrap: true,
               ),
             ),
           ),
@@ -46,13 +51,18 @@ class _HeadlineCellWidgetState extends State<HeadlineCellWidget> {
                         widget.headline.updated * 1000)
                     .toString(),
                 softWrap: true,
-                style: const TextStyle(color: Colors.blue),
+                style: TextStyle(
+                    color: widget.headline.unread ? Colors.blue : Colors.grey),
               ),
             ),
           ),
         ],
       ),
       onTap: () {
+        setState(() {
+          widget.headline.unread = false;
+        });
+
         Navigator.push(
             context,
             MaterialPageRoute(

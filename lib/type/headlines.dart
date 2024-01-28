@@ -1,7 +1,7 @@
 class Headline {
   final int id;
   final String guid;
-  final bool unread;
+  var unread;
   final bool marked;
   final bool published;
   final int updated;

@@ -83,6 +83,7 @@ class SettingScreenState extends State<SettingScreen> {
               TextFormField(
                 decoration: const InputDecoration(labelText: 'pass'),
                 initialValue: Preference.getString(Preference.PASS),
+                obscureText: true,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter pass';

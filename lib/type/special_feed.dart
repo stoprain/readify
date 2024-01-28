@@ -1,4 +1,4 @@
-class Feed {
+class SpecialFeed {
   final String? feed_url;
   final String title;
   final int id;
@@ -8,7 +8,7 @@ class Feed {
   final int? last_updated;
   final int? order_id;
 
-  Feed(
+  SpecialFeed(
       {required this.feed_url,
       required this.title,
       required this.id,
@@ -18,8 +18,8 @@ class Feed {
       required this.last_updated,
       required this.order_id});
 
-  factory Feed.fromJson(Map<String, dynamic> json) {
-    return Feed(
+  factory SpecialFeed.fromJson(Map<String, dynamic> json) {
+    return SpecialFeed(
       feed_url: json["feed_url"],
       title: json["title"],
       id: json["id"],
@@ -31,17 +31,3 @@ class Feed {
     );
   }
 }
-
-// class Feeds {
-//   final int seq;
-//   final int status;
-//   final List<Feed> content;
-
-//   Feeds({required this.seq, required this.status, required this.content});
-
-//   factory Feeds.fromJson(Map<String, dynamic> json) {
-//     var list = json['content'] as List;
-//     List<Feed> feedList = list.map((i) => Feed.fromJson(i)).toList();
-//     return Feeds(seq: json["seq"], status: json["status"], content: feedList);
-//   }
-// }

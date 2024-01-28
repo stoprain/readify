@@ -15,6 +15,7 @@ class FeedsScreen extends StatefulWidget {
 
 class _FeedsScreenState extends State<FeedsScreen> {
   List<Feed> feeds = [];
+  bool isUnread = true;
 
   @override
   void initState() {
@@ -24,7 +25,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
 
   void refresh() {
     context.loaderOverlay.show();
-    Network.getFeeds(widget.category.id).then((value) => {
+    Network.getFeeds(widget.category.id, isUnread).then((value) => {
           setState(() {
             feeds = value;
             context.loaderOverlay.hide();
@@ -38,7 +39,19 @@ class _FeedsScreenState extends State<FeedsScreen> {
       appBar: AppBar(
         title: Text(widget.category.title),
         actions: [
-          // Icon(Icons.refresh_rounded),
+          SegmentedButton(
+            segments: const [
+              ButtonSegment(value: true, label: Text('Unread')),
+              ButtonSegment(value: false, label: Text('All'))
+            ],
+            selected: {isUnread},
+            onSelectionChanged: (i) => {
+              setState(() {
+                isUnread = i.first;
+                refresh();
+              })
+            },
+          ),
           IconButton(
             icon: const Icon(
               Icons.refresh_rounded,

@@ -40,10 +40,10 @@ class Network {
     return categoryList;
   }
 
-  static Future<List<Feed>> getFeeds(int categoryId) async {
+  static Future<List<Feed>> getFeeds(int categoryId, isUnread) async {
     final res = buildRequest(Op.getFeeds, {
       "cat_id": categoryId,
-      "unread_only": true,
+      "unread_only": categoryId == -1 ? false : isUnread,
     });
     if (res == null) return [];
     var respsone = await http.post(Uri.parse(res.$1), body: res.$2);
@@ -52,13 +52,13 @@ class Network {
     return feedList;
   }
 
-  static Future<List<Headline>> getHeadlines(int feedId) async {
+  static Future<List<Headline>> getHeadlines(int feedId, bool isUnread) async {
     final res = buildRequest(Op.getHeadlines, {
       "feed_id": feedId,
-      "unread_only": true,
+      // "unread_only": isUnread,
       "show_excerpt": true,
       "excerpt_length": 300,
-      "view_mode": "unread",
+      "view_mode": isUnread ? "unread" : "all_articles",
       "order_by": "feed_dates",
     });
     if (res == null) return [];

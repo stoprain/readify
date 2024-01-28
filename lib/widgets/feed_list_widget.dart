@@ -23,6 +23,7 @@ class FeedListWidget extends StatelessWidget {
               icon: const Icon(
                 Icons.newspaper,
                 size: 18,
+                color: Colors.blue,
               ),
               title: title,
               unread: unread,

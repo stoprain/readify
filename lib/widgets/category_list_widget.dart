@@ -24,6 +24,7 @@ class CategoryListWidget extends StatelessWidget {
               icon: const Icon(
                 Icons.folder_outlined,
                 size: 18,
+                color: Colors.blue,
               ),
               title: title,
               unread: unread,

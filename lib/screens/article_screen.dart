@@ -37,14 +37,22 @@ class _ArticleScreenState extends State<ArticleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.headline.title),
-          actions: [],
+      appBar: AppBar(title: Text(widget.headline.title), actions: [
+        article?.marked ?? false
+            ? IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.star),
+              )
+            : IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.star_border),
+              )
+      ]),
+      body: SingleChildScrollView(
+        child: SelectionArea(
+          child: HtmlWidget(article?.content ?? ''),
         ),
-        body: SingleChildScrollView(
-          child: SelectionArea(
-            child: HtmlWidget(article?.content ?? ''),
-          ),
-        ));
+      ),
+    );
   }
 }
