@@ -5,7 +5,7 @@ class Article {
   final String link;
   // final List<String> labels;
   final bool unread;
-  final bool marked;
+  bool marked;
   final bool published;
   final String comments;
   final String author;

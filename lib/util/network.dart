@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:readify/type/article.dart';
 import 'package:readify/type/feeds.dart';
 import 'package:readify/type/headlines.dart';
@@ -77,10 +76,21 @@ class Network {
     return Article.fromJson(json[0]);
   }
 
-  static updateArticle(int articleId) async {
+  static updateArticleUnread(int articleId) async {
     final res = buildRequest(Op.updateArticle, {
       "mode": 0,
       "field": 2,
+      "article_ids": articleId,
+    });
+    if (res == null) return null;
+    var respsone = await http.post(Uri.parse(res.$1), body: res.$2);
+    print(respsone.body);
+  }
+
+  static Future<void> updateArticleStar(int articleId, bool isStar) async {
+    final res = buildRequest(Op.updateArticle, {
+      "mode": isStar ? 1 : 0,
+      "field": 0,
       "article_ids": articleId,
     });
     if (res == null) return null;
