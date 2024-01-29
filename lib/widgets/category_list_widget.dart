@@ -18,7 +18,8 @@ class CategoryListWidget extends StatelessWidget {
             ),
         itemBuilder: (BuildContext context, int index) {
           var category = categories[index];
-          var unread = category.unread;
+          var unread =
+              (category.id > 0 || category.unread > 0) ? category.unread : -1;
           var title = category.title;
           return TitleCellWidget(
               icon: const Icon(

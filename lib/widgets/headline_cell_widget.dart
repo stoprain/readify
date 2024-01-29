@@ -33,7 +33,7 @@ class _HeadlineCellWidgetState extends State<HeadlineCellWidget> {
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.all(10),
               child: HtmlWidget(
                 widget.headline.excerpt,
                 textStyle: TextStyle(

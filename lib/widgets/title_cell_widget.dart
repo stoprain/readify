@@ -27,30 +27,39 @@ class _TitleCellWidgetState extends State<TitleCellWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: widget.icon,
+            Expanded(
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: widget.icon,
+                    ),
                   ),
-                ),
-                Text(widget.title),
-              ],
-            ),
-            Container(
-              margin: const EdgeInsets.only(right: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-                color: Colors.blue,
-              ),
-              child: Text(
-                ' ${widget.unread} ',
-                style: const TextStyle(color: Colors.white),
+                  Expanded(
+                    child: Text(
+                      widget.title,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
             ),
+            widget.unread > 0
+                ? Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      color: Colors.blue,
+                    ),
+                    child: Text(
+                      ' ${widget.unread} ',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  )
+                : Container()
           ],
         ),
       ),

@@ -37,12 +37,16 @@ class _FeedsScreenState extends State<FeedsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category.title),
+        title: Text(
+          widget.category.title,
+        ),
+        centerTitle: false,
         actions: [
           SegmentedButton(
+            showSelectedIcon: false,
             segments: const [
-              ButtonSegment(value: true, label: Text('Unread')),
-              ButtonSegment(value: false, label: Text('All'))
+              ButtonSegment(value: true, label: Text('U')),
+              ButtonSegment(value: false, label: Text('A'))
             ],
             selected: {isUnread},
             onSelectionChanged: (i) => {
@@ -51,15 +55,19 @@ class _FeedsScreenState extends State<FeedsScreen> {
                 refresh();
               })
             },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.refresh_rounded,
+            style: const ButtonStyle(
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              visualDensity: VisualDensity(horizontal: -4, vertical: -4),
             ),
-            onPressed: () {
-              refresh();
-            },
           ),
+          // IconButton(
+          //   icon: const Icon(
+          //     Icons.refresh_rounded,
+          //   ),
+          //   onPressed: () {
+          //     refresh();
+          //   },
+          // ),
         ],
       ),
       body: FeedListWidget(feeds: feeds),

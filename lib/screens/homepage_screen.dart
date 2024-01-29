@@ -47,6 +47,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
           },
         ),
         title: const Text('Subscriptions'),
+        centerTitle: false,
         actions: [
           // Icon(Icons.refresh_rounded),
           IconButton(
