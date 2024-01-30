@@ -47,7 +47,7 @@ class _TitleCellWidgetState extends State<TitleCellWidget> {
                 ],
               ),
             ),
-            widget.unread > 0
+            widget.unread >= 0
                 ? Container(
                     margin: const EdgeInsets.only(right: 10),
                     decoration: BoxDecoration(

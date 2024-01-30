@@ -5,6 +5,7 @@ class Preference {
   static const String USER = 'user';
   static const String PASS = 'pass';
   static const String SID = 'sid';
+  static const String UNREAD = 'unread';
 
   static late final SharedPreferences _prefs;
   static final Map<String, dynamic> _memoryPrefs = {};

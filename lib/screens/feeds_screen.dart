@@ -3,7 +3,9 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/type/category.dart';
 import 'package:readify/type/feeds.dart';
 import 'package:readify/util/network.dart';
+import 'package:readify/util/preference.dart';
 import 'package:readify/widgets/feed_list_widget.dart';
+import 'package:readify/widgets/unread_switch_widget.dart';
 
 class FeedsScreen extends StatefulWidget {
   final Category category;
@@ -15,7 +17,6 @@ class FeedsScreen extends StatefulWidget {
 
 class _FeedsScreenState extends State<FeedsScreen> {
   List<Feed> feeds = [];
-  bool isUnread = true;
 
   @override
   void initState() {
@@ -25,12 +26,14 @@ class _FeedsScreenState extends State<FeedsScreen> {
 
   void refresh() {
     context.loaderOverlay.show();
-    Network.getFeeds(widget.category.id, isUnread).then((value) => {
-          setState(() {
-            feeds = value;
-            context.loaderOverlay.hide();
-          })
-        });
+    Network.getFeeds(
+            widget.category.id, Preference.getBool(Preference.UNREAD) ?? true)
+        .then((value) => {
+              setState(() {
+                feeds = value;
+                context.loaderOverlay.hide();
+              })
+            });
   }
 
   @override
@@ -42,32 +45,11 @@ class _FeedsScreenState extends State<FeedsScreen> {
         ),
         centerTitle: false,
         actions: [
-          SegmentedButton(
-            showSelectedIcon: false,
-            segments: const [
-              ButtonSegment(value: true, label: Text('U')),
-              ButtonSegment(value: false, label: Text('A'))
-            ],
-            selected: {isUnread},
-            onSelectionChanged: (i) => {
-              setState(() {
-                isUnread = i.first;
-                refresh();
-              })
+          UnreadSwitchWidget(
+            onChange: () {
+              refresh();
             },
-            style: const ButtonStyle(
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-            ),
           ),
-          // IconButton(
-          //   icon: const Icon(
-          //     Icons.refresh_rounded,
-          //   ),
-          //   onPressed: () {
-          //     refresh();
-          //   },
-          // ),
         ],
       ),
       body: FeedListWidget(feeds: feeds),

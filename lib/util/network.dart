@@ -39,7 +39,7 @@ class Network {
     return categoryList;
   }
 
-  static Future<List<Feed>> getFeeds(int categoryId, isUnread) async {
+  static Future<List<Feed>> getFeeds(int categoryId, bool isUnread) async {
     final res = buildRequest(Op.getFeeds, {
       "cat_id": categoryId,
       "unread_only": categoryId == -1 ? false : isUnread,

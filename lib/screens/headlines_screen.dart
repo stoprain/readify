@@ -3,7 +3,9 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/type/feeds.dart';
 import 'package:readify/type/headlines.dart';
 import 'package:readify/util/network.dart';
+import 'package:readify/util/preference.dart';
 import 'package:readify/widgets/headline_list_widget.dart';
+import 'package:readify/widgets/unread_switch_widget.dart';
 
 class HeadlinesScreen extends StatefulWidget {
   final Feed feed;
@@ -15,7 +17,6 @@ class HeadlinesScreen extends StatefulWidget {
 
 class _HeadlinesScreenState extends State<HeadlinesScreen> {
   List<Headline> headlines = [];
-  bool isUnread = true;
 
   @override
   void initState() {
@@ -25,12 +26,14 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
 
   void refresh() {
     context.loaderOverlay.show();
-    Network.getHeadlines(widget.feed.id, isUnread).then((value) => {
-          setState(() {
-            headlines = value;
-            context.loaderOverlay.hide();
-          })
-        });
+    Network.getHeadlines(
+            widget.feed.id, Preference.getBool(Preference.UNREAD) ?? true)
+        .then((value) => {
+              setState(() {
+                headlines = value;
+                context.loaderOverlay.hide();
+              })
+            });
   }
 
   @override
@@ -42,32 +45,11 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
         ),
         centerTitle: false,
         actions: [
-          SegmentedButton(
-            showSelectedIcon: false,
-            segments: const [
-              ButtonSegment(value: true, label: Text('U')),
-              ButtonSegment(value: false, label: Text('A'))
-            ],
-            selected: {isUnread},
-            onSelectionChanged: (i) => {
-              setState(() {
-                isUnread = i.first;
-                refresh();
-              })
+          UnreadSwitchWidget(
+            onChange: () {
+              refresh();
             },
-            style: const ButtonStyle(
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-            ),
-          ),
-          // IconButton(
-          //   icon: const Icon(
-          //     Icons.refresh_rounded,
-          //   ),
-          //   onPressed: () {
-          //     refresh();
-          //   },
-          // ),
+          )
         ],
       ),
       body: HeadlineListWidget(headlines: headlines),
