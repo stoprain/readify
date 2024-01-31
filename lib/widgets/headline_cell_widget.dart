@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/screens/article_screen.dart';
@@ -24,6 +25,8 @@ class _HeadlineCellWidgetState extends State<HeadlineCellWidget> {
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: Text(
                 widget.headline.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: widget.headline.unread ? Colors.black : Colors.grey),
@@ -31,17 +34,17 @@ class _HeadlineCellWidgetState extends State<HeadlineCellWidget> {
             ),
           ),
           Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: HtmlWidget(
-                widget.headline.excerpt,
-                textStyle: TextStyle(
-                    color: widget.headline.unread ? Colors.black : Colors.grey),
-                // softWrap: true,
-              ),
-            ),
-          ),
+              alignment: Alignment.centerLeft,
+              child: Html(
+                data: widget.headline.excerpt,
+                style: {
+                  '*': Style(
+                      color:
+                          widget.headline.unread ? Colors.black : Colors.grey,
+                      maxLines: 2,
+                      textOverflow: TextOverflow.ellipsis)
+                },
+              )),
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(

@@ -13,6 +13,7 @@ enum Op {
   login,
   getCategories,
   getFeeds,
+  catchupFeed,
   getHeadlines,
   getArticle,
   updateArticle
@@ -49,6 +50,17 @@ class Network {
     var list = validRes(respsone.body) as List<dynamic>;
     List<Feed> feedList = list.map((i) => Feed.fromJson(i)).toList();
     return feedList;
+  }
+
+  static Future<void> catchupFeed(int feedId) async {
+    final res = buildRequest(Op.catchupFeed, {
+      "feed_id": feedId,
+      "is_cat": false,
+      "mode": "all",
+    });
+    if (res == null) return;
+    var respsone = await http.post(Uri.parse(res.$1), body: res.$2);
+    print(respsone.body);
   }
 
   static Future<List<Headline>> getHeadlines(int feedId, bool isUnread) async {
@@ -93,7 +105,7 @@ class Network {
       "field": 0,
       "article_ids": articleId,
     });
-    if (res == null) return null;
+    if (res == null) return;
     var respsone = await http.post(Uri.parse(res.$1), body: res.$2);
     print(respsone.body);
   }

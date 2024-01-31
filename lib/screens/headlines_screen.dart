@@ -1,3 +1,4 @@
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/type/feeds.dart';
@@ -40,19 +41,48 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.feed.title,
+        title: UnreadSwitchWidget(
+          onChange: () {
+            refresh();
+          },
         ),
         centerTitle: false,
         actions: [
-          UnreadSwitchWidget(
-            onChange: () {
+          IconButton(
+            icon: const Icon(
+              Icons.refresh_rounded,
+            ),
+            onPressed: () {
               refresh();
             },
-          )
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.check,
+            ),
+            onPressed: () {
+              confirm(context).then((value) {
+                if (value) {
+                  context.loaderOverlay.show();
+                  Network.catchupFeed(widget.feed.id).then((value) {
+                    context.loaderOverlay.hide();
+                    for (var h in headlines) {
+                      h.unread = false;
+                    }
+                    setState(() {
+                      headlines = headlines;
+                    });
+                  });
+                }
+              });
+            },
+          ),
         ],
       ),
-      body: HeadlineListWidget(headlines: headlines),
+      body: HeadlineListWidget(
+        headlines: headlines,
+        feedTitle: widget.feed.title,
+      ),
     );
   }
 }

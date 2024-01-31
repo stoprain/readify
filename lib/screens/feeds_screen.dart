@@ -40,19 +40,27 @@ class _FeedsScreenState extends State<FeedsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.category.title,
+        title: UnreadSwitchWidget(
+          onChange: () {
+            refresh();
+          },
         ),
         centerTitle: false,
         actions: [
-          UnreadSwitchWidget(
-            onChange: () {
+          IconButton(
+            icon: const Icon(
+              Icons.refresh_rounded,
+            ),
+            onPressed: () {
               refresh();
             },
           ),
         ],
       ),
-      body: FeedListWidget(feeds: feeds),
+      body: FeedListWidget(
+        feeds: feeds,
+        categoryTitle: widget.category.title,
+      ),
     );
   }
 }
