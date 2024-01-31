@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TitleCellWidget extends StatefulWidget {
-  final Icon icon;
+  final Widget icon;
   final String title;
   final int unread;
   final VoidCallback onCellTap;

@@ -29,8 +29,8 @@ class _UnreadSwitchWidgetState extends State<UnreadSwitchWidget> {
     return SegmentedButton(
       showSelectedIcon: false,
       segments: const [
-        ButtonSegment(value: true, label: Text('U')),
-        ButtonSegment(value: false, label: Text('A'))
+        ButtonSegment(value: true, label: Text('Unread')),
+        ButtonSegment(value: false, label: Text('All'))
       ],
       selected: {isUnread},
       onSelectionChanged: (i) => {
@@ -42,7 +42,7 @@ class _UnreadSwitchWidgetState extends State<UnreadSwitchWidget> {
       },
       style: const ButtonStyle(
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+        // visualDensity: VisualDensity(horizontal: -4, vertical: -4),
       ),
     );
   }

@@ -27,6 +27,12 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     context.loaderOverlay.show();
     Network.getCategories().then((value) => {
           setState(() {
+            for (var i = 0; i < value.length; i++) {
+              if (value[i].id == -1) {
+                final Category first = value.removeAt(i);
+                value.insert(0, first);
+              }
+            }
             categories = value;
             context.loaderOverlay.hide();
           })

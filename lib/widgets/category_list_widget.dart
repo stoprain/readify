@@ -13,20 +13,43 @@ class CategoryListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
         itemCount: categories.length,
-        separatorBuilder: (BuildContext context, int index) => const Divider(
-              height: 1,
-            ),
+        separatorBuilder: (BuildContext context, int index) {
+          if (index == 0 || index == categories.length - 2) {
+            return const Column(
+              children: [
+                Divider(
+                  height: 1,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Divider(
+                  height: 1,
+                )
+              ],
+            );
+          }
+          return const Divider(
+            height: 1,
+          );
+        },
         itemBuilder: (BuildContext context, int index) {
           var category = categories[index];
           var unread =
               (category.id > 0 || category.unread > 0) ? category.unread : -1;
           var title = category.title;
           return TitleCellWidget(
-              icon: const Icon(
-                Icons.folder_outlined,
-                size: 18,
-                color: Colors.blue,
-              ),
+              icon: category.id <= 0
+                  ? const Icon(
+                      Icons.tag,
+                      size: 18,
+                      color: Colors.blue,
+                    )
+                  : const Icon(
+                      Icons.folder_outlined,
+                      size: 18,
+                      color: Colors.blue,
+                    ),
               title: title,
               unread: unread,
               onCellTap: () {
