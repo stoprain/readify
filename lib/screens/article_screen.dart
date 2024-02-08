@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/type/article.dart';
-import 'package:readify/type/headlines.dart';
+import 'package:readify/type/headline.dart';
 import 'package:readify/util/network.dart';
 
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';

@@ -1,16 +1,22 @@
 import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:readify/type/feeds.dart';
-import 'package:readify/type/headlines.dart';
+import 'package:readify/type/headline.dart';
 import 'package:readify/util/network.dart';
 import 'package:readify/util/preference.dart';
 import 'package:readify/widgets/headline_list_widget.dart';
 import 'package:readify/widgets/unread_switch_widget.dart';
 
 class HeadlinesScreen extends StatefulWidget {
-  final Feed feed;
-  const HeadlinesScreen({super.key, required this.feed});
+  // final Feed feed;
+  final int catOrFeedId;
+  final String title;
+  final bool isCat;
+  const HeadlinesScreen(
+      {super.key,
+      required this.catOrFeedId,
+      required this.title,
+      required this.isCat});
 
   @override
   State<HeadlinesScreen> createState() => _HeadlinesScreenState();
@@ -27,8 +33,8 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
 
   void refresh() {
     context.loaderOverlay.show();
-    Network.getHeadlines(
-            widget.feed.id, Preference.getBool(Preference.UNREAD) ?? true)
+    Network.getHeadlines(widget.catOrFeedId, widget.isCat,
+            Preference.getBool(Preference.UNREAD) ?? true)
         .then((value) => {
               setState(() {
                 headlines = value;
@@ -64,7 +70,8 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
               confirm(context).then((value) {
                 if (value) {
                   context.loaderOverlay.show();
-                  Network.catchupFeed(widget.feed.id).then((value) {
+                  Network.catchupFeed(widget.catOrFeedId, widget.isCat)
+                      .then((value) {
                     context.loaderOverlay.hide();
                     for (var h in headlines) {
                       h.unread = false;
@@ -81,7 +88,7 @@ class _HeadlinesScreenState extends State<HeadlinesScreen> {
       ),
       body: HeadlineListWidget(
         headlines: headlines,
-        feedTitle: widget.feed.title,
+        feedTitle: widget.title,
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:readify/type/category.dart';
-import 'package:readify/type/feeds.dart';
+import 'package:readify/type/feed.dart';
 import 'package:readify/util/network.dart';
 import 'package:readify/util/preference.dart';
 import 'package:readify/widgets/feed_list_widget.dart';
@@ -58,8 +58,8 @@ class _FeedsScreenState extends State<FeedsScreen> {
         ],
       ),
       body: FeedListWidget(
+        category: widget.category,
         feeds: feeds,
-        categoryTitle: widget.category.title,
       ),
     );
   }

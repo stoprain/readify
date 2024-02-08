@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:readify/type/headlines.dart';
+import 'package:readify/type/headline.dart';
 import 'package:readify/widgets/headline_cell_widget.dart';
 
 class HeadlineListWidget extends StatelessWidget {

@@ -10,6 +10,7 @@ class Headline {
   final String link;
   final int feed_id;
   final String excerpt;
+  final String feed_title;
 
   Headline({
     required this.id,
@@ -23,8 +24,9 @@ class Headline {
     required this.link,
     required this.feed_id,
     required this.excerpt,
+    required this.feed_title,
   });
-  //tags labels feed_title comments_count comments_link
+  //tags labels  comments_count comments_link
   //always_display_attachments author score note lang site_url
 
   factory Headline.fromJson(Map<String, dynamic> json) {
@@ -40,6 +42,7 @@ class Headline {
       link: json["link"],
       feed_id: json["feed_id"],
       excerpt: json['excerpt'],
+      feed_title: json['feed_title'],
     );
   }
 }

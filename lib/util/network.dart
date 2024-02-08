@@ -1,6 +1,6 @@
 import 'package:readify/type/article.dart';
-import 'package:readify/type/feeds.dart';
-import 'package:readify/type/headlines.dart';
+import 'package:readify/type/feed.dart';
+import 'package:readify/type/headline.dart';
 import 'package:readify/type/session.dart';
 import 'package:readify/util/globals.dart';
 
@@ -52,10 +52,10 @@ class Network {
     return feedList;
   }
 
-  static Future<void> catchupFeed(int feedId) async {
+  static Future<void> catchupFeed(int catOrFeedId, bool isCat) async {
     final res = buildRequest(Op.catchupFeed, {
-      "feed_id": feedId,
-      "is_cat": false,
+      "feed_id": catOrFeedId,
+      "is_cat": isCat,
       "mode": "all",
     });
     if (res == null) return;
@@ -63,10 +63,12 @@ class Network {
     print(respsone.body);
   }
 
-  static Future<List<Headline>> getHeadlines(int feedId, bool isUnread) async {
+  static Future<List<Headline>> getHeadlines(
+      int catOrFeedId, bool isCat, bool isUnread) async {
     final res = buildRequest(Op.getHeadlines, {
-      "feed_id": feedId,
+      "feed_id": catOrFeedId,
       // "unread_only": isUnread,
+      "is_cat": isCat,
       "show_excerpt": true,
       "excerpt_length": 300,
       "view_mode": isUnread ? "unread" : "all_articles",
